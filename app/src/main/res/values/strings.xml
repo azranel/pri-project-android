@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RestaurantoApp</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="LoginActivity.title">Restauranto</string>
+    <string name="LoginActivity.loginLabel">Login:</string>
+    <string name="LoginActivity.passwordLabel">Password:</string>
+    <string name="LoginActivity.submitButton">Sign in</string>
+    <string name="Constants_host">http://46.101.196.183</string>
+    <string name="title_activity_restaurant_pick">RestaurantPickActivity</string>
+</resources>
