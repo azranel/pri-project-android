@@ -2,10 +2,15 @@ package com.restauranto.restaurantoapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.restauranto.restaurantoapp.R;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ModePickActivity extends AppCompatActivity {
 
@@ -13,6 +18,7 @@ public class ModePickActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mode_pick);
+        ButterKnife.bind(this);
     }
 
     @Override
@@ -36,4 +42,17 @@ public class ModePickActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @OnClick(R.id.ModePickActivity_buttons_waiter)
+    public void pickWaiterMode(View view) {
+        Log.v("RESTAURANTO", "Picked up waiter mode...");
+
+    }
+
+    @OnClick(R.id.ModePickActivity_buttons_kitchen)
+    public void pickKitchenMode(View view) {
+        Log.v("RESTAURANTO", "Picked up kitchen mode...");
+
+    }
+
 }

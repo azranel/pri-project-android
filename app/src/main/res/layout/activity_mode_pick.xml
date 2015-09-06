@@ -7,11 +7,12 @@
     android:orientation="vertical"
     tools:context="com.restauranto.restaurantoapp.activities.ModePickActivity">
 
-    <TextView android:text="@string/ModePickActivity.description"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/ModePickActivity.description"
         android:paddingBottom="20dp"/>
-    <Button
+    <Button android:id="@+id/ModePickActivity.buttons.waiter"
         android:text="@string/ModePickActivity.buttons.waiter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -20,7 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ModePickActivity.waiter.description"
         android:paddingBottom="60dp"/>
-    <Button
+    <Button android:id="@+id/ModePickActivity.buttons.kitchen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/ModePickActivity.buttons.kitchen" />

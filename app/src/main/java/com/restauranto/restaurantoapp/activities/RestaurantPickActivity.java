@@ -43,32 +43,9 @@ public class RestaurantPickActivity extends AppCompatActivity {
     private void fetchRestaurantsAndAddThemToAdapter() {
         final Context context = this;
         Log.v("RESTAURANTO", "Fetching resturants...");
-        new RestaurantoAPIBuilder()
-                .getClientWithUser(User.loggedInUser)
-                .fetchRestaurants(new Callback<List<Restaurant>>() {
-                    @Override
-                    public void success(List<Restaurant> restaurantList, Response response) {
-                        Log.v("RESTAURANTO", "Success fetching " + String.valueOf(restaurantList.size()) + " restaurants");
-                        restaurantAdapter = new RestaurantAdapter(restaurantList, context);
-                        restaurantsListView.setAdapter(restaurantAdapter);
-                        restaurantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                Restaurant restaurant = (Restaurant) restaurantAdapter.getItem(position);
-                                Restaurant.pickedRestaurant = restaurant;
-                                Intent changeToPickUpModeActivity = new Intent(context, ModePickActivity.class);
-                                startActivity(changeToPickUpModeActivity);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("RESTAURANTO", "Failed to fetch restaurants");
-                        Log.e("RESTAURANTO", error.getMessage());
-                        error.printStackTrace();
-                    }
-                });
+        new FetchRestaurantService(context, restaurantAdapter)
+                .addListView(restaurantsListView)
+                .call();
     }
 
     @Override
