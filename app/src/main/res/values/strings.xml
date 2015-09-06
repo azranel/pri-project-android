@@ -10,4 +10,5 @@
     <string name="LoginActivity.submitButton">Sign in</string>
     <string name="Constants_host">http://46.101.196.183</string>
     <string name="title_activity_restaurant_pick">RestaurantPickActivity</string>
+    <string name="title_activity_mode_pick">ModePickActivity</string>
 </resources>

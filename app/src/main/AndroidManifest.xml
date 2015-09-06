@@ -31,6 +31,10 @@
             android:name=".activities.RestaurantPickActivity"
             android:label="@string/title_activity_restaurant_pick" >
         </activity>
+        <activity
+            android:name=".activities.ModePickActivity"
+            android:label="@string/title_activity_mode_pick" >
+        </activity>
     </application>
 
 </manifest>
