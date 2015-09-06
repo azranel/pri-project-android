@@ -4,15 +4,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.restauranto.restaurantoapp.R;
 
+import adapters.OrdersAdapter;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class KitchenActivity extends AppCompatActivity {
+
+    @Bind(R.id.KitchenActivity_ordersList) ListView orders;
+    private OrdersAdapter ordersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kitchen);
+        ButterKnife.bind(this);
+        getOrdersAndBindToAdapter();
+    }
+
+    private void getOrdersAndBindToAdapter() {
+
     }
 
     @Override
