@@ -1,31 +1,24 @@
 package com.restauranto.restaurantoapp.activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.restauranto.restaurantoapp.R;
 
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class ModePickActivity extends AppCompatActivity {
+public class KitchenActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mode_pick);
-        ButterKnife.bind(this);
+        setContentView(R.layout.activity_kitchen);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mode_pick, menu);
+        getMenuInflater().inflate(R.menu.menu_kitchen, menu);
         return true;
     }
 
@@ -42,18 +35,5 @@ public class ModePickActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @OnClick(R.id.ModePickActivity_buttons_waiter)
-    public void pickWaiterMode(View view) {
-        Log.v("RESTAURANTO", "Picked up waiter mode...");
-
-    }
-
-    @OnClick(R.id.ModePickActivity_buttons_kitchen)
-    public void pickKitchenMode(View view) {
-        Log.v("RESTAURANTO", "Picked up kitchen mode...");
-        Intent intent = new Intent(this, KitchenActivity.class);
-        startActivity(intent);
     }
 }

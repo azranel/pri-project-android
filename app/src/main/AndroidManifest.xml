@@ -35,6 +35,10 @@
             android:name=".activities.ModePickActivity"
             android:label="@string/title_activity_mode_pick" >
         </activity>
+        <activity
+            android:name=".activities.KitchenActivity"
+            android:label="@string/title_activity_kitchen" >
+        </activity>
     </application>
 
 </manifest>
