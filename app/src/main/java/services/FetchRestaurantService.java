@@ -34,22 +34,6 @@ public class FetchRestaurantService {
     }
 
     public void call() {
-        new RestaurantoAPIBuilder()
-                .getClientWithUser(User.loggedInUser)
-                .fetchRestaurants(new Callback<List<Restaurant>>() {
-                    @Override
-                    public void success(List<Restaurant> restaurantList, Response response) {
-                        Log.v("RESTAURANTO", "Success fetching " + String.valueOf(restaurantList.size()) + " restaurants");
-                        restaurantAdapter = new RestaurantAdapter(restaurantList, context);
-                        restaurantsListView.setAdapter(restaurantAdapter);
-                    }
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("RESTAURANTO", "Failed to fetch restaurants");
-                        Log.e("RESTAURANTO", error.getMessage());
-                        error.printStackTrace();
-                    }
-                });
     }
 }

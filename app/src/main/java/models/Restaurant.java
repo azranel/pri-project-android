@@ -11,6 +11,7 @@ import javax.annotation.Generated;
 @Generated("org.jsonschema2pojo")
 public class Restaurant {
 
+    public static Restaurant pickedRestaurant;
     @Expose
     private int id;
     @Expose

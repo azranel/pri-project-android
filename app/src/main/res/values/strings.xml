@@ -11,4 +11,9 @@
     <string name="Constants_host">http://46.101.196.183</string>
     <string name="title_activity_restaurant_pick">RestaurantPickActivity</string>
     <string name="title_activity_mode_pick">ModePickActivity</string>
+    <string name="ModePickActivity.description">Tutaj możesz wybrac tryb w jakim ma pracowac aplikacja:</string>
+    <string name="ModePickActivity.buttons.waiter">Kelner</string>
+    <string name="ModePickActivity.waiter.description">W tym trybie możesz pobierac zamowienia od klientów, które później trafią do kuchni</string>
+    <string name="ModePickActivity.buttons.kitchen">Kuchnia</string>
+    <string name="ModePickActivity.kitchen.description">W tym trybie możesz wywietlac zamówienia, które oczekują na realizacje</string>
 </resources>
