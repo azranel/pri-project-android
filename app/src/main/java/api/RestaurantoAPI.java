@@ -24,6 +24,10 @@ public interface RestaurantoAPI {
     @GET("/api/restaurants.json")
     void fetchRestaurants(Callback<List<Restaurant>> callback);
 
-    @GET("/api/restaurants/{id}/orders")
+    @GET("/api/restaurants/{id}/orders.json")
     void fetchOrdersForRestaurant(@Path("id") int restaurantId, Callback<List<Order>> callback);
+
+    @FormUrlEncoded
+    @POST("/api/restaurants/{id}/orders.json")
+    void addOrderToRestaurant(@Path("id") int restaurantId, @Field("order") Order order, Callback<Order> callback);
 }
