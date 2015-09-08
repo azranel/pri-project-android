@@ -1,0 +1,70 @@
+package com.restauranto.restaurantoapp.fragments;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.restauranto.restaurantoapp.R;
+
+import java.io.Serializable;
+import java.util.List;
+
+import adapters.DishesAdapter;
+import adapters.RestaurantAdapter;
+import adapters.RestaurantSetsAdapter;
+import models.Dish;
+import models.RestaurantSet;
+
+/**
+ * Created by bartoszlecki on 9/8/15.
+ */
+public class OrderFragment extends Fragment {
+    private static final String DISHES_COLLECTION = "DISHES COLLECTION";
+    private static final String SETS_COLLECTION = "SETS COLLECTION";
+
+    private List<Dish> dishes;
+    private List<RestaurantSet> sets;
+    private DishesAdapter dishesAdapter;
+    private RestaurantSetsAdapter setsAdapter;
+
+    public static DishesFragment newInstance(List<Dish> dishes, List<RestaurantSet> sets) {
+        DishesFragment fragment = new DishesFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(DISHES_COLLECTION, (Serializable) dishes);
+        args.putSerializable(SETS_COLLECTION, (Serializable) sets);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public OrderFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            dishes = (List<Dish>) getArguments().getSerializable(DISHES_COLLECTION);
+            sets = (List<RestaurantSet>) getArguments().getSerializable(SETS_COLLECTION);
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.order_fragment, container, false);
+        final ListView dishesListView = (ListView) view.findViewById(R.id.OrderFragment_dishesListView);
+        final ListView setsListView = (ListView) view.findViewById(R.id.OrderFragment_setsListView);
+        final Context context = getActivity();
+        dishesAdapter = new DishesAdapter(context, dishes);
+        setsAdapter = new RestaurantSetsAdapter(context, sets);
+        dishesListView.setAdapter(dishesAdapter);
+        setsListView.setAdapter(setsAdapter);
+        return view;
+    }
+}

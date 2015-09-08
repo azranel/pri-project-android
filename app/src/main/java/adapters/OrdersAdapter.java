@@ -49,6 +49,7 @@ public class OrdersAdapter extends BaseAdapter {
         if(convertView == null)
             view = LayoutInflater.from(context).inflate(R.layout.order_item, parent, false);
         else view = convertView;
+
         TextView dishesCount = (TextView) view.findViewById(R.id.OrderItem_dishesCount);
         TextView orderDate = (TextView) view.findViewById(R.id.OrderItem_orderDate);
 

@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.restauranto.restaurantoapp.R;
 import com.restauranto.restaurantoapp.fragments.DishesFragment;
+import com.restauranto.restaurantoapp.fragments.OrderFragment;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +23,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import models.Dish;
 import models.Restaurant;
+import models.RestaurantSet;
 import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -31,6 +33,8 @@ import services.FetchDishesForRestaurantService;
 public class WaiterActivity extends FragmentActivity {
     @Bind(R.id.WaiterAcitivty_viewPager) ViewPager viewPager;
     MyPagerAdapter adapterViewPager;
+    private DishesFragment orderFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +42,15 @@ public class WaiterActivity extends FragmentActivity {
         setContentView(R.layout.activity_waiter);
         ButterKnife.bind(this);
         setupAdapter();
-
     }
 
     private void setupAdapter() {
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         new FetchDishesForRestaurantService(viewPager, adapterViewPager).call();
+
+        orderFragment = OrderFragment.newInstance(new LinkedList<Dish>(), new LinkedList<RestaurantSet>());
+
+        adapterViewPager.addFragment(orderFragment);
     }
 
     @Override
