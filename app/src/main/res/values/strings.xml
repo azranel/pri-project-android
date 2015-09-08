@@ -17,4 +17,6 @@
     <string name="ModePickActivity.buttons.kitchen">Kuchnia</string>
     <string name="ModePickActivity.kitchen.description">W tym trybie możesz wywietlac zamówienia, które oczekują na realizacje</string>
     <string name="title_activity_kitchen">KitchenActivity</string>
+    <string name="title_activity_waiter">WaiterActivity</string>
+    <string name="MenuWaiter.orderAction">Order</string>
 </resources>

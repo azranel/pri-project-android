@@ -39,6 +39,10 @@
             android:name=".activities.KitchenActivity"
             android:label="@string/title_activity_kitchen" >
         </activity>
+        <activity
+            android:name=".activities.WaiterActivity"
+            android:label="@string/title_activity_waiter" >
+        </activity>
     </application>
 
 </manifest>

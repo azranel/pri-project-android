@@ -14,6 +14,7 @@ import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
 import retrofit.http.Path;
+import retrofit.http.Query;
 
 /**
  * Created by bartoszlecki on 8/31/15.
@@ -26,11 +27,11 @@ public interface RestaurantoAPI {
     @GET("/api/restaurants.json")
     void fetchRestaurants(Callback<List<Restaurant>> callback);
 
-    @GET("/api/dishes?restaurant_id={id}")
-    void fetchDishesForRestaurant(@Path("id") int restaurantId, Callback<List<Dish>> callback);
+    @GET("/api/dishes")
+    void fetchDishesForRestaurant(@Query("restaurant_id") int restaurantId, Callback<List<Dish>> callback);
 
-    @GET("/api/sets?restaurant_id={id}")
-    void fetchSetsForRestaurant(@Path("id") int restaurantId, Callback<List<RestaurantSet>> callback);
+    @GET("/api/sets")
+    void fetchSetsForRestaurant(@Query("restaurant_id") int restaurantId, Callback<List<RestaurantSet>> callback);
 
     @GET("/api/restaurants/{id}/orders.json")
     void fetchOrdersForRestaurant(@Path("id") int restaurantId, Callback<List<Order>> callback);

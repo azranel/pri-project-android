@@ -51,6 +51,8 @@ public class ModePickActivity extends AppCompatActivity {
     @OnClick(R.id.ModePickActivity_buttons_waiter)
     public void pickWaiterMode(View view) {
         Log.v("RESTAURANTO", "Picked up waiter mode...");
+        Intent intent = new Intent(this, WaiterActivity.class);
+        startActivity(intent);
 
     }
 
