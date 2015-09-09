@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.restauranto.restaurantoapp.activities.OrderDetailActivity">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/OrderFragment.dishesLabel"/>
-    <ListView android:id="@+id/OrderFragment.dishesListView"
+    <ListView android:id="@+id/OrderDetailActivity.dishesListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"></ListView>
@@ -14,13 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/OrderFragment.setsLabel"/>
-    <ListView android:id="@+id/OrderFragment.setsListView"
+    <ListView android:id="@+id/OrderDetailActivity.setsListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"></ListView>
-    <Button android:id="@+id/OrderFragment.orderButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/OrderFragment.orderButtonLabel"
-        android:onClick="sentOrderToKitchen"/>
+
 </LinearLayout>

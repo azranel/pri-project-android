@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.restauranto.restaurantoapp.R;
@@ -32,13 +33,22 @@ public class OrderFragment extends Fragment {
     private DishesAdapter dishesAdapter;
     private RestaurantSetsAdapter setsAdapter;
 
-    public static DishesFragment newInstance(List<Dish> dishes, List<RestaurantSet> sets) {
-        DishesFragment fragment = new DishesFragment();
+
+
+    public static OrderFragment newInstance(List<Dish> dishes, List<RestaurantSet> sets) {
+        OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putSerializable(DISHES_COLLECTION, (Serializable) dishes);
         args.putSerializable(SETS_COLLECTION, (Serializable) sets);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public List<Dish> getDishes() {
+        return dishes;
+    }
+    public List<RestaurantSet> getSets() {
+        return sets;
     }
 
     public OrderFragment() {

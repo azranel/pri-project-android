@@ -4,10 +4,13 @@ import java.util.List;
 
 import models.Dish;
 import models.Order;
+import models.OrderWithFood;
 import models.Restaurant;
 import models.RestaurantSet;
 import models.User;
 import retrofit.Callback;
+import retrofit.client.Response;
+import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -36,7 +39,10 @@ public interface RestaurantoAPI {
     @GET("/api/restaurants/{id}/orders.json")
     void fetchOrdersForRestaurant(@Path("id") int restaurantId, Callback<List<Order>> callback);
 
-    @FormUrlEncoded
-    @POST("/api/restaurants/{id}/orders.json")
-    void addOrderToRestaurant(@Path("id") int restaurantId, @Field("order") Order order, Callback<Order> callback);
+    @GET("/api/orders/{id}")
+    void fetchOrder(@Path("id") int orderId, Callback<OrderWithFood> callback);
+
+    @POST("/api/orders")
+    void sendOrderToKitchen(@Body Order order,
+                            Callback<Response> callback);
 }

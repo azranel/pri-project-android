@@ -19,4 +19,8 @@
     <string name="title_activity_kitchen">KitchenActivity</string>
     <string name="title_activity_waiter">WaiterActivity</string>
     <string name="MenuWaiter.orderAction">Order</string>
+    <string name="OrderFragment.dishesLabel">Dishes</string>
+    <string name="OrderFragment.setsLabel">Zestawy</string>
+    <string name="OrderFragment.orderButtonLabel">Zamów!</string>
+    <string name="title_activity_order_detail">OrderDetailActivity</string>
 </resources>

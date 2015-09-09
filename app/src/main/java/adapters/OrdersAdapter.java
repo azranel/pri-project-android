@@ -54,7 +54,8 @@ public class OrdersAdapter extends BaseAdapter {
         TextView orderDate = (TextView) view.findViewById(R.id.OrderItem_orderDate);
 
         //TODO: Change from static to dynamic data injection
-        dishesCount.setText("Dishes count: 4");
+        dishesCount.setText("Dishes count: " +
+                String.valueOf(order.getDishIds().length + order.getSetsIds().length));
         orderDate.setText("27/07/2015 16:34");
 
         return view;

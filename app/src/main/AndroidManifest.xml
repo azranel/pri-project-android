@@ -43,6 +43,10 @@
             android:name=".activities.WaiterActivity"
             android:label="@string/title_activity_waiter" >
         </activity>
+        <activity
+            android:name=".activities.OrderDetailActivity"
+            android:label="@string/title_activity_order_detail" >
+        </activity>
     </application>
 
 </manifest>

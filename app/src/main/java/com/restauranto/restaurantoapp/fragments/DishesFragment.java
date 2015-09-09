@@ -8,15 +8,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.restauranto.restaurantoapp.R;
+import com.restauranto.restaurantoapp.activities.WaiterActivity;
 
 import java.io.Serializable;
 import java.util.List;
 
 import adapters.DishesAdapter;
 import models.Dish;
+import models.Order;
 
 public class DishesFragment extends Fragment {
 
@@ -54,6 +57,14 @@ public class DishesFragment extends Fragment {
         final Context context = getActivity();
         dishesAdapter = new DishesAdapter(context, dishes);
         dishesListView.setAdapter(dishesAdapter);
+
+        dishesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Dish selectedDish = (Dish) dishesAdapter.getItem(position);
+                ((WaiterActivity) context).getOrderFragment().getDishes().add(selectedDish);
+            }
+        });
         return view;
     }
 }

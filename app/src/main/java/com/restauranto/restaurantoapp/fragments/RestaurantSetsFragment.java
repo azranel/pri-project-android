@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.restauranto.restaurantoapp.R;
+import com.restauranto.restaurantoapp.activities.WaiterActivity;
 
 import java.io.Serializable;
 import java.util.List;
@@ -51,10 +53,17 @@ public class RestaurantSetsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.restaurant_sets_fragment, container, false);
-        final ListView dishesListView = (ListView) view.findViewById(R.id.RestaurantSetsFragment_setsListView);
+        final ListView restaurantSetsListView = (ListView) view.findViewById(R.id.RestaurantSetsFragment_setsListView);
         final Context context = getActivity();
         restaurantSetAdapter = new RestaurantSetsAdapter(context, restaurantSets);
-        dishesListView.setAdapter(restaurantSetAdapter);
+        restaurantSetsListView.setAdapter(restaurantSetAdapter);
+        restaurantSetsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RestaurantSet selectedSet = (RestaurantSet) restaurantSetAdapter.getItem(position);
+                ((WaiterActivity) context).getOrderFragment().getSets().add(selectedSet);
+            }
+        });
         return view;
     }
 }

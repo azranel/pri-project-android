@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.restauranto.restaurantoapp.R;
 import com.restauranto.restaurantoapp.fragments.DishesFragment;
@@ -22,6 +23,7 @@ import api.RestaurantoAPIBuilder;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import models.Dish;
+import models.Order;
 import models.Restaurant;
 import models.RestaurantSet;
 import models.User;
@@ -33,7 +35,7 @@ import services.FetchDishesForRestaurantService;
 public class WaiterActivity extends FragmentActivity {
     @Bind(R.id.WaiterAcitivty_viewPager) ViewPager viewPager;
     MyPagerAdapter adapterViewPager;
-    private DishesFragment orderFragment;
+    private OrderFragment orderFragment;
 
 
     @Override
@@ -52,6 +54,8 @@ public class WaiterActivity extends FragmentActivity {
 
         adapterViewPager.addFragment(orderFragment);
     }
+
+    public OrderFragment getOrderFragment() { return orderFragment; }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,6 +79,35 @@ public class WaiterActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void sentOrderToKitchen(View view) {
+        Log.v("RESTAURANTO", "Sending order...");
+        int[] dishIds = new int[orderFragment.getDishes().size()];
+        int[] setIds = new int[orderFragment.getSets().size()];
+        for(int i = 0; i < orderFragment.getDishes().size(); i++) {
+            dishIds[i] = orderFragment.getDishes().get(i).getId();
+        }
+        for(int j = 0; j < orderFragment.getSets().size(); j++) {
+            setIds[j] = orderFragment.getSets().get(j).getId();
+        }
+
+        Order order = new Order(Restaurant.pickedRestaurant.getId(), dishIds, setIds);
+        new RestaurantoAPIBuilder()
+                .getClientWithUser(User.loggedInUser)
+                .sendOrderToKitchen(order,
+                        new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                Log.v("RESTAURANTO", "Order sent...");
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("RESTAURANTO", "FAIL! You wont eat!");
+                                Log.e("RESTAURANTO", error.getMessage());
+                            }
+                        });
+    }
+
     public static class MyPagerAdapter extends FragmentPagerAdapter {
 
         private List<Fragment> fragmentList;
@@ -90,7 +123,7 @@ public class WaiterActivity extends FragmentActivity {
         // Returns total number of pages
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         // Returns the fragment to display for that page
