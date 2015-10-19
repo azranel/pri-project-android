@@ -14,6 +14,10 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by bartoszlecki on 8/31/15.
@@ -32,21 +36,29 @@ public class SignInService {
     public void call() {
         RestaurantoAPI apiHandler = new RestaurantoAPIBuilder().getClient();
 
-        apiHandler.signIn(login, password, new Callback<User>() {
+        final Observable<User> user = apiHandler
+                .signIn(login, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        user.subscribe(new Observer<User>() {
             @Override
-            public void success(User user, Response response) {
+            public void onCompleted() {
                 Log.v("RESTAURANTO", "SUCCESS");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("RESTAURANTO", "FAIL");
+                Log.e("RESTAURANTO", e.getMessage());
+            }
+
+            @Override
+            public void onNext(User user) {
                 User.loggedInUser = user;
                 Intent intent = new Intent(context, RestaurantPickActivity.class);
                 context.startActivity(intent);
             }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("RESTAURANTO", "FAIL");
-                Log.e("RESTAURANTO", error.getMessage());
-            }
         });
-
     }
 }

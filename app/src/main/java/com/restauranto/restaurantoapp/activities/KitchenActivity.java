@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.restauranto.restaurantoapp.R;
 
@@ -46,6 +47,30 @@ public class KitchenActivity extends AppCompatActivity {
                 Intent intent = new Intent(context, OrderDetailActivity.class);
                 intent.putExtra(OrderDetailActivity.ORDER_KEY, order.getId());
                 startActivity(intent);
+            }
+        });
+        ordersListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                final Order order = (Order) ordersAdapter.getItem(position);
+                Log.v("RESTAURANTO", "Sending order from kitchen to client...");
+                new RestaurantoAPIBuilder()
+                        .getClientWithUser(User.loggedInUser)
+                        .moveOrderToNextStep(order.getId(), new Callback<Response>() {
+                            @Override
+                            public void success(Response response, Response response2) {
+                                Log.v("RESTAURANTO", "Done!");
+                                ordersAdapter.removeOrderFromList(order);
+                                Toast.makeText(context, "Zamówienie wykonane!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void failure(RetrofitError error) {
+                                Log.e("RESTAURANTO", "Failed to next step... :(");
+                                Log.e("RESTAURANTO", error.getMessage());
+                            }
+                        });
+                return true;
             }
         });
     }

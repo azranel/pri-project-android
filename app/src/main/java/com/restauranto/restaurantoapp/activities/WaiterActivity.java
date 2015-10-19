@@ -1,5 +1,6 @@
 package com.restauranto.restaurantoapp.activities;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.restauranto.restaurantoapp.R;
 import com.restauranto.restaurantoapp.fragments.DishesFragment;
@@ -89,6 +91,8 @@ public class WaiterActivity extends FragmentActivity {
         for(int j = 0; j < orderFragment.getSets().size(); j++) {
             setIds[j] = orderFragment.getSets().get(j).getId();
         }
+        orderFragment.clearOrder();
+        final Context context = this;
 
         Order order = new Order(Restaurant.pickedRestaurant.getId(), dishIds, setIds);
         new RestaurantoAPIBuilder()
@@ -98,12 +102,17 @@ public class WaiterActivity extends FragmentActivity {
                             @Override
                             public void success(Response response, Response response2) {
                                 Log.v("RESTAURANTO", "Order sent...");
+                                Toast.makeText(context, "Wysłano zamówienie", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
                                 Log.e("RESTAURANTO", "FAIL! You wont eat!");
                                 Log.e("RESTAURANTO", error.getMessage());
+                                Toast.makeText(context,
+                                        "Coś się nie udało w trakcie wysyłania zamówienia",
+                                        Toast.LENGTH_SHORT)
+                                        .show();
                             }
                         });
     }

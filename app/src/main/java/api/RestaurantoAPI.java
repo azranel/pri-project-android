@@ -16,8 +16,10 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.Header;
 import retrofit.http.POST;
+import retrofit.http.PUT;
 import retrofit.http.Path;
 import retrofit.http.Query;
+import rx.Observable;
 
 /**
  * Created by bartoszlecki on 8/31/15.
@@ -25,7 +27,7 @@ import retrofit.http.Query;
 public interface RestaurantoAPI {
     @FormUrlEncoded
     @POST("/users/sign_in.json")
-    void signIn(@Field("user[email]") String login, @Field("user[password]") String password, Callback<User> callback);
+    Observable<User> signIn(@Field("user[email]") String login, @Field("user[password]") String password);
 
     @GET("/api/restaurants.json")
     void fetchRestaurants(Callback<List<Restaurant>> callback);
@@ -41,6 +43,9 @@ public interface RestaurantoAPI {
 
     @GET("/api/orders/{id}")
     void fetchOrder(@Path("id") int orderId, Callback<OrderWithFood> callback);
+
+    @PUT("/api/orders/{id}/next_step")
+    void moveOrderToNextStep(@Path("id") int orderId, Callback<Response> callback);
 
     @POST("/api/orders")
     void sendOrderToKitchen(@Body Order order,

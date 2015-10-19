@@ -75,6 +75,27 @@ public class OrderFragment extends Fragment {
         setsAdapter = new RestaurantSetsAdapter(context, sets);
         dishesListView.setAdapter(dishesAdapter);
         setsListView.setAdapter(setsAdapter);
+        dishesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Dish dish = (Dish) dishesAdapter.getItem(position);
+                dishes.remove(dish);
+                dishesAdapter.notifyDataSetChanged();
+            }
+        });
+        setsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                RestaurantSet set = (RestaurantSet) setsAdapter.getItem(position);
+                sets.remove(set);
+                setsAdapter.notifyDataSetChanged();
+            }
+        });
         return view;
+    }
+
+    public void clearOrder() {
+        dishes.clear();
+        sets.clear();
     }
 }

@@ -60,4 +60,9 @@ public class OrdersAdapter extends BaseAdapter {
 
         return view;
     }
+
+    public void removeOrderFromList(Order order) {
+        orders.remove(order);
+        notifyDataSetChanged();
+    }
 }
