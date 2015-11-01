@@ -32,6 +32,9 @@ import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import services.FetchDishesForRestaurantService;
 
 public class WaiterActivity extends FragmentActivity {
@@ -55,25 +58,21 @@ public class WaiterActivity extends FragmentActivity {
         orderFragment = OrderFragment.newInstance(new LinkedList<Dish>(), new LinkedList<RestaurantSet>());
 
         adapterViewPager.addFragment(orderFragment);
+        adapterViewPager.notifyDataSetChanged();
     }
 
     public OrderFragment getOrderFragment() { return orderFragment; }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_waiter, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -97,24 +96,30 @@ public class WaiterActivity extends FragmentActivity {
         Order order = new Order(Restaurant.pickedRestaurant.getId(), dishIds, setIds);
         new RestaurantoAPIBuilder()
                 .getClientWithUser(User.loggedInUser)
-                .sendOrderToKitchen(order,
-                        new Callback<Response>() {
-                            @Override
-                            public void success(Response response, Response response2) {
-                                Log.v("RESTAURANTO", "Order sent...");
-                                Toast.makeText(context, "Wysłano zamówienie", Toast.LENGTH_SHORT).show();
-                            }
+                .sendOrderToKitchen(order)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.v("RESTAURANTO", "Order sent...");
+                    }
 
-                            @Override
-                            public void failure(RetrofitError error) {
-                                Log.e("RESTAURANTO", "FAIL! You wont eat!");
-                                Log.e("RESTAURANTO", error.getMessage());
-                                Toast.makeText(context,
-                                        "Coś się nie udało w trakcie wysyłania zamówienia",
-                                        Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        });
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("RESTAURANTO", "FAIL! You wont eat!");
+                        Log.e("RESTAURANTO", e.getMessage());
+                        Toast.makeText(context,
+                                "Coś się nie udało w trakcie wysyłania zamówienia",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onNext(Response response) {
+                        Toast.makeText(context, "Wysłano zamówienie", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

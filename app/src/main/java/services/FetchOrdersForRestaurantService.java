@@ -8,6 +8,7 @@ import java.util.List;
 
 import adapters.OrdersAdapter;
 import adapters.RestaurantAdapter;
+import api.RestaurantoAPI;
 import api.RestaurantoAPIBuilder;
 import models.Order;
 import models.Restaurant;
@@ -15,6 +16,10 @@ import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by bartoszlecki on 9/6/15.
@@ -34,22 +39,32 @@ public class FetchOrdersForRestaurantService {
 
 
     public void call() {
-        new RestaurantoAPIBuilder()
-                .getClientWithUser(User.loggedInUser)
-                .fetchOrdersForRestaurant(restaurant.getId(), new Callback<List<Order>>() {
-                    @Override
-                    public void success(List<Order> orders, Response response) {
-                        Log.v("RESTAURANTO", "Fetched orders successfully!");
-                        ordersAdapter = new OrdersAdapter(context, orders);
-                        ordersListView.setAdapter(ordersAdapter);
-                        //TODO: Set onClickListener to ordersListView
-                    }
+        RestaurantoAPI api = new RestaurantoAPIBuilder()
+                .getClientWithUser(User.loggedInUser);
 
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("RESTAURANTO", "Failed to fetch orders for restaurant");
-                        Log.e("RESTAURANTO", error.getMessage());
-                    }
-                });
+        Observable<List<Order>> orders = api.fetchOrdersForRestaurant(restaurant.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        orders.subscribe(new Observer<List<Order>>() {
+            @Override
+            public void onCompleted() {
+                Log.v("RESTAURANTO", "Fetched orders successfully!");
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("RESTAURANTO", "Failed to fetch orders for restaurant");
+                Log.e("RESTAURANTO", e.getMessage());
+            }
+
+            @Override
+            public void onNext(List<Order> orders) {
+                ordersAdapter = new OrdersAdapter(context, orders);
+                ordersListView.setAdapter(ordersAdapter);
+                //TODO: Set onClickListener to ordersListView
+            }
+        });
     }
 }

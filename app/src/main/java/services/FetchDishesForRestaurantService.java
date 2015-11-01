@@ -18,6 +18,12 @@ import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by bartoszlecki on 9/8/15.
@@ -35,46 +41,33 @@ public class FetchDishesForRestaurantService {
         RestaurantoAPI api = new RestaurantoAPIBuilder()
                 .getClientWithUser(User.loggedInUser);
 
-        fetchDishes(api);
-        fetchRestaurantSets(api);
-        createBlankOrder(api);
-    }
-
-    private void fetchDishes(RestaurantoAPI api) {
-        api.fetchDishesForRestaurant(Restaurant.pickedRestaurant.getId(), new Callback<List<Dish>>() {
+        Observable.zip(api.fetchDishesForRestaurant(Restaurant.pickedRestaurant.getId()),
+                api.fetchSetsForRestaurant(Restaurant.pickedRestaurant.getId()),
+                new Func2<List<Dish>, List<RestaurantSet>, Object>() {
             @Override
-            public void success(List<Dish> dishes, Response response) {
+            public Object call(List<Dish> dishes, List<RestaurantSet> restaurantSets) {
                 adapter.addFragment(DishesFragment.newInstance(dishes));
-                Log.v("RESTAURANTO", "Dishes count: " + String.valueOf(dishes.size()));
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e("RESTAURANTO", "Failed to fetch dishes...");
-                Log.e("RESTAURANTO", error.getMessage());
-            }
-        });
-    }
-
-    private void fetchRestaurantSets(RestaurantoAPI api) {
-        api.fetchSetsForRestaurant(Restaurant.pickedRestaurant.getId(),
-                new Callback<List<RestaurantSet>>() {
-            @Override
-            public void success(List<RestaurantSet> restaurantSets, Response response) {
                 adapter.addFragment(RestaurantSetsFragment.newInstance(restaurantSets));
-                viewPager.setAdapter(adapter);
-                Log.v("RESTAURANTO", "Restaurant sets count: " + String.valueOf(restaurantSets.size()));
+                return null;
+            }
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+                Log.v("RESTAURANTO", "Done fetching, setting adapter...");
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                Log.e("RESTAURANTO", "Failed to fetch restaurant sets...");
-                Log.e("RESTAURANTO", error.getMessage());
+            public void onError(Throwable e) {
+                Log.e("RESTAURANTO", "Shit is not working");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Object o) {
+                viewPager.setAdapter(adapter);
             }
         });
-    }
-
-    private void createBlankOrder(RestaurantoAPI api) {
-//        adapter.addFragment(OrderFragment.newInstance());
     }
 }

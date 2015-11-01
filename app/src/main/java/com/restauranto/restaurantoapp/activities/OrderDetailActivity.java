@@ -21,6 +21,9 @@ import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -44,20 +47,27 @@ public class OrderDetailActivity extends AppCompatActivity {
         int orderId = getOrderFromIntent();
         new RestaurantoAPIBuilder()
                 .getClientWithUser(User.loggedInUser)
-                .fetchOrder(orderId, new Callback<OrderWithFood>() {
+                .fetchOrder(orderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<OrderWithFood>() {
                     @Override
-                    public void success(OrderWithFood orderWithFood, Response response) {
+                    public void onCompleted() {
                         Log.v("RESTAURANTO", "Fetched order!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.v("RESTAURANTO", "Failed to fetch order!");
+                        Log.e("RESTAURANTO", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(OrderWithFood orderWithFood) {
                         setsAdapter = new RestaurantSetsAdapter(context, orderWithFood.getRestaurantSets());
                         dishesAdapter = new DishesAdapter(context, orderWithFood.getDishes());
                         dishesListView.setAdapter(dishesAdapter);
                         setsListView.setAdapter(setsAdapter);
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.v("RESTAURANTO", "Failed to fetch order!");
-                        Log.e("RESTAURANTO", error.getMessage());
                     }
                 });
     }

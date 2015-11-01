@@ -30,24 +30,23 @@ public interface RestaurantoAPI {
     Observable<User> signIn(@Field("user[email]") String login, @Field("user[password]") String password);
 
     @GET("/api/restaurants.json")
-    void fetchRestaurants(Callback<List<Restaurant>> callback);
+    Observable<List<Restaurant>> fetchRestaurants();
 
     @GET("/api/dishes")
-    void fetchDishesForRestaurant(@Query("restaurant_id") int restaurantId, Callback<List<Dish>> callback);
+    Observable<List<Dish>> fetchDishesForRestaurant(@Query("restaurant_id") int restaurantId);
 
     @GET("/api/sets")
-    void fetchSetsForRestaurant(@Query("restaurant_id") int restaurantId, Callback<List<RestaurantSet>> callback);
+    Observable<List<RestaurantSet>> fetchSetsForRestaurant(@Query("restaurant_id") int restaurantId);
 
     @GET("/api/restaurants/{id}/orders.json")
-    void fetchOrdersForRestaurant(@Path("id") int restaurantId, Callback<List<Order>> callback);
+    Observable<List<Order>> fetchOrdersForRestaurant(@Path("id") int restaurantId);
 
     @GET("/api/orders/{id}")
-    void fetchOrder(@Path("id") int orderId, Callback<OrderWithFood> callback);
+    Observable<OrderWithFood> fetchOrder(@Path("id") int orderId);
 
     @PUT("/api/orders/{id}/next_step")
-    void moveOrderToNextStep(@Path("id") int orderId, Callback<Response> callback);
+    Observable<Response> moveOrderToNextStep(@Path("id") int orderId);
 
     @POST("/api/orders")
-    void sendOrderToKitchen(@Body Order order,
-                            Callback<Response> callback);
+    Observable<Response> sendOrderToKitchen(@Body Order order);
 }

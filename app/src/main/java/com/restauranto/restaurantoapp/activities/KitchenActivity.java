@@ -27,6 +27,9 @@ import models.User;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class KitchenActivity extends AppCompatActivity {
 
@@ -54,20 +57,26 @@ public class KitchenActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 final Order order = (Order) ordersAdapter.getItem(position);
                 Log.v("RESTAURANTO", "Sending order from kitchen to client...");
-                new RestaurantoAPIBuilder()
-                        .getClientWithUser(User.loggedInUser)
-                        .moveOrderToNextStep(order.getId(), new Callback<Response>() {
+                new RestaurantoAPIBuilder().getClientWithUser(User.loggedInUser)
+                        .moveOrderToNextStep(order.getId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Response>() {
                             @Override
-                            public void success(Response response, Response response2) {
+                            public void onCompleted() {
                                 Log.v("RESTAURANTO", "Done!");
-                                ordersAdapter.removeOrderFromList(order);
-                                Toast.makeText(context, "Zamówienie wykonane!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
-                            public void failure(RetrofitError error) {
+                            public void onError(Throwable e) {
                                 Log.e("RESTAURANTO", "Failed to next step... :(");
-                                Log.e("RESTAURANTO", error.getMessage());
+                                Log.e("RESTAURANTO", e.getMessage());
+                            }
+
+                            @Override
+                            public void onNext(Response response) {
+                                ordersAdapter.removeOrderFromList(order);
+                                Toast.makeText(context, "Zamówienie wykonane!", Toast.LENGTH_SHORT).show();
                             }
                         });
                 return true;
@@ -79,21 +88,27 @@ public class KitchenActivity extends AppCompatActivity {
         final Context context = this;
         new RestaurantoAPIBuilder()
                 .getClientWithUser(User.loggedInUser)
-                .fetchOrdersForRestaurant(Restaurant.pickedRestaurant.getId(), new Callback<List<Order>>() {
+                .fetchOrdersForRestaurant(Restaurant.pickedRestaurant.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Order>>() {
                     @Override
-                    public void success(List<Order> orders, Response response) {
+                    public void onCompleted() {
                         Log.v("RESTAURANTO", "Fetched orders!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("RESTAURANTO", "Failed to fetch orders :(");
+                        Log.e("RESTAURANTO", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<Order> orders) {
                         ordersAdapter = new OrdersAdapter(context, orders);
                         ordersListView.setAdapter(ordersAdapter);
                     }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("RESTAURANTO", "Failed to fetch orders :(");
-                        Log.e("RESTAURANTO", error.getMessage());
-                    }
                 });
-
     }
 
     @Override
