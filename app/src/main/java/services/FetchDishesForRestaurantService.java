@@ -41,7 +41,8 @@ public class FetchDishesForRestaurantService {
         RestaurantoAPI api = new RestaurantoAPIBuilder()
                 .getClientWithUser(User.loggedInUser);
 
-        Observable.zip(api.fetchDishesForRestaurant(Restaurant.pickedRestaurant.getId()),
+        Observable.zip(
+                api.fetchDishesForRestaurant(Restaurant.pickedRestaurant.getId()),
                 api.fetchSetsForRestaurant(Restaurant.pickedRestaurant.getId()),
                 new Func2<List<Dish>, List<RestaurantSet>, Object>() {
             @Override
