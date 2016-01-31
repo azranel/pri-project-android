@@ -38,9 +38,9 @@ import rx.schedulers.Schedulers;
 import services.FetchDishesForRestaurantService;
 
 public class WaiterActivity extends FragmentActivity {
-    @Bind(R.id.WaiterAcitivty_viewPager) ViewPager viewPager;
-    MyPagerAdapter adapterViewPager;
-    private OrderFragment orderFragment;
+        @Bind(R.id.WaiterAcitivty_viewPager) ViewPager viewPager;
+        MyPagerAdapter adapterViewPager;
+        private OrderFragment orderFragment;
 
 
     @Override
