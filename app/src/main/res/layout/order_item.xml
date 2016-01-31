@@ -5,10 +5,14 @@
         android:text="Ilosc dan: "
         android:textSize="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.AppCompat.Widget.Switch"
+        android:textColor="#ffffff" />
     <TextView android:id="@+id/OrderItem.orderDate"
         android:text="24/7/2015 16:34"
         android:layout_below="@id/OrderItem.dishesCount"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        style="@style/Base.TextAppearance.Widget.AppCompat.ExpandedMenu.Item"
+        android:textColor="#ffffff" />
 </RelativeLayout>

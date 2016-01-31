@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="dasjdkasdkljas"
         android:textSize="@dimen/Restaurant.item.title"
-        android:layout_toRightOf="@id/Restaurant.item.image"/>
+        android:layout_toRightOf="@id/Restaurant.item.image"
+        android:textColor="#ffffff" />
 
 </RelativeLayout>

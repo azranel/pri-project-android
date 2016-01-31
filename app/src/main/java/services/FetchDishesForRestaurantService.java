@@ -61,7 +61,7 @@ public class FetchDishesForRestaurantService {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("RESTAURANTO", "Shit is not working");
+                Log.e("RESTAURANTO", "Connection problem. Check your network.");
                 e.printStackTrace();
             }
 

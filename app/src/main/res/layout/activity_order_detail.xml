@@ -2,23 +2,32 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.restauranto.restaurantoapp.activities.OrderDetailActivity">
+    tools:context="com.restauranto.restaurantoapp.activities.OrderDetailActivity"
+    android:weightSum="1"
+    android:background="@drawable/background">
 
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/OrderFragment.dishesLabel"/>
+        android:text="@string/OrderFragment.dishesLabel"
+        android:textColor="#ffffff"
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"/>
+
     <ListView android:id="@+id/OrderDetailActivity.dishesListView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"></ListView>
+        android:layout_height="235dp"></ListView>
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/OrderFragment.setsLabel"/>
-    <ListView android:id="@+id/OrderDetailActivity.setsListView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></ListView>
+        android:text="@string/OrderFragment.setsLabel"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal" />
+    <ListView android:id="@+id/OrderDetailActivity.setsListView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        style="@style/Base.Widget.AppCompat.ListView"></ListView>
 
 </LinearLayout>
