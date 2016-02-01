@@ -3,6 +3,8 @@ package models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by bartoszlecki on 9/6/15.
  */
@@ -18,6 +20,10 @@ public class Order {
     @SerializedName("dish_ids")
     @Expose
     private int[] dishIds;
+    @SerializedName("created_at")
+    @Expose
+    private Date createdAt;
+
 
     public Order(int restaurantId, int[] dishIds, int[] setsIds) {
         this.restaurantId = restaurantId;
@@ -27,6 +33,10 @@ public class Order {
 
     public int[] getSetsIds() {
         return setsIds;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public void setSetsIds(int[] setsIds) {

@@ -1,10 +1,13 @@
 package api;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.restauranto.restaurantoapp.R;
 
 import models.User;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.converter.GsonConverter;
 import utils.Utils;
 
 /**
@@ -23,9 +26,13 @@ public class RestaurantoAPIBuilder {
     }
 
     public RestaurantoAPI getClientWithUser(final User loggedInUser) {
+        Gson gson = new GsonBuilder()
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         return new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(Utils.HOST)
+                .setConverter(new GsonConverter(gson))
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
