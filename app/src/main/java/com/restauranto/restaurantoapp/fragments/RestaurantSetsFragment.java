@@ -62,6 +62,7 @@ public class RestaurantSetsFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RestaurantSet selectedSet = (RestaurantSet) restaurantSetAdapter.getItem(position);
                 ((WaiterActivity) context).getOrderFragment().getSets().add(selectedSet);
+                ((WaiterActivity) context).getOrderFragment().getSetsAdapter().notifyDataSetChanged();
             }
         });
         return view;

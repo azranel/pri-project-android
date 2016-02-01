@@ -63,6 +63,7 @@ public class DishesFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Dish selectedDish = (Dish) dishesAdapter.getItem(position);
                 ((WaiterActivity) context).getOrderFragment().getDishes().add(selectedDish);
+                ((WaiterActivity) context).getOrderFragment().getDishesAdapter().notifyDataSetChanged();
             }
         });
         return view;

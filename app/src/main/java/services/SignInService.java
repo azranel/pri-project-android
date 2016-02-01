@@ -3,6 +3,7 @@ package services;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.restauranto.restaurantoapp.R;
 import com.restauranto.restaurantoapp.activities.RestaurantPickActivity;
@@ -51,6 +52,7 @@ public class SignInService {
             public void onError(Throwable e) {
                 Log.e("RESTAURANTO", "FAIL");
                 Log.e("RESTAURANTO", e.getMessage());
+                Toast.makeText(context, "Zły login lub hasło", Toast.LENGTH_SHORT).show();
             }
 
             @Override

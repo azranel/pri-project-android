@@ -30,6 +30,15 @@ public class OrderFragment extends Fragment {
 
     private List<Dish> dishes;
     private List<RestaurantSet> sets;
+
+    public RestaurantSetsAdapter getSetsAdapter() {
+        return setsAdapter;
+    }
+
+    public DishesAdapter getDishesAdapter() {
+        return dishesAdapter;
+    }
+
     private DishesAdapter dishesAdapter;
     private RestaurantSetsAdapter setsAdapter;
 
@@ -97,5 +106,7 @@ public class OrderFragment extends Fragment {
     public void clearOrder() {
         dishes.clear();
         sets.clear();
+        dishesAdapter.notifyDataSetChanged();
+        setsAdapter.notifyDataSetChanged();
     }
 }
