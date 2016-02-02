@@ -1,28 +1,28 @@
 <resources>
-    <string name="app_name">RestaurantoApp</string>
-    <string name="title_activity_login">LoginActivity</string>
+    <string name="app_name">Restauranto</string>
+    <string name="title_activity_login">Logowanie</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="LoginActivity.title">Restauranto</string>
-    <string name="LoginActivity.loginLabel">Login:</string>
-    <string name="LoginActivity.passwordLabel">Password:</string>
+    <string name="LoginActivity.loginLabel">Email:</string>
+    <string name="LoginActivity.passwordLabel">Hasło:</string>
     <string name="LoginActivity.submitButton">Sign in</string>
     <string name="Constants_host">http://46.101.196.183</string>
     <string name="title_activity_restaurant_pick">RestaurantPickActivity</string>
-    <string name="title_activity_mode_pick">ModePickActivity</string>
+    <string name="title_activity_mode_pick">Wybór trybu</string>
     <string name="ModePickActivity.description">Tutaj możesz wybrac tryb w jakim ma pracować aplikacja:</string>
     <string name="ModePickActivity.buttons.waiter">Kelner</string>
     <string name="ModePickActivity.waiter.description">W tym trybie możesz przyjmować zamówienia od klientów, które później trafią do kuchni</string>
     <string name="ModePickActivity.buttons.kitchen">Kuchnia</string>
     <string name="ModePickActivity.kitchen.description">W tym trybie możesz wywietlac zamówienia, które oczekują na realizacje</string>
-    <string name="title_activity_kitchen">KitchenActivity</string>
-    <string name="title_activity_waiter">WaiterActivity</string>
-    <string name="MenuWaiter.orderAction">Order</string>
-    <string name="OrderFragment.dishesLabel">Dishes</string>
-    <string name="OrderFragment.setsLabel">Sets</string>
+    <string name="title_activity_kitchen">Tryb kuchni</string>
+    <string name="title_activity_waiter">Tryb kelnera</string>
+    <string name="MenuWaiter.orderAction">Zamów!</string>
+    <string name="OrderFragment.dishesLabel">Potrawy</string>
+    <string name="OrderFragment.setsLabel">Zestawy</string>
     <string name="OrderFragment.orderButtonLabel">Zamów!</string>
-    <string name="title_activity_order_detail">OrderDetailActivity</string>
-    <string name="OrderActivityDetail.dishesButton">Dishes</string>
-    <string name="OrderActivityDetail.setsButton">Sets</string>
+    <string name="title_activity_order_detail">Detale zamówienia</string>
+    <string name="OrderActivityDetail.dishesButton">Potrawy</string>
+    <string name="OrderActivityDetail.setsButton">Zamówienia</string>
 </resources>

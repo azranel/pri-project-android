@@ -81,45 +81,50 @@ public class WaiterActivity extends FragmentActivity {
     }
 
     public void sentOrderToKitchen(View view) {
-        Log.v("RESTAURANTO", "Sending order...");
-        int[] dishIds = new int[orderFragment.getDishes().size()];
-        int[] setIds = new int[orderFragment.getSets().size()];
-        for(int i = 0; i < orderFragment.getDishes().size(); i++) {
-            dishIds[i] = orderFragment.getDishes().get(i).getId();
+        if(orderFragment.getDishes().size() + orderFragment.getSets().size() == 0) {
+            Toast.makeText(this, "Zamówienie musi mieć pozycję!", Toast.LENGTH_LONG).show();
+        } else {
+            Log.v("RESTAURANTO", "Sending order...");
+            int[] dishIds = new int[orderFragment.getDishes().size()];
+            int[] setIds = new int[orderFragment.getSets().size()];
+            for(int i = 0; i < orderFragment.getDishes().size(); i++) {
+                dishIds[i] = orderFragment.getDishes().get(i).getId();
+            }
+            for(int j = 0; j < orderFragment.getSets().size(); j++) {
+                setIds[j] = orderFragment.getSets().get(j).getId();
+            }
+
+            final Context context = this;
+
+            Order order = new Order(Restaurant.pickedRestaurant.getId(), dishIds, setIds);
+            new RestaurantoAPIBuilder()
+                    .getClientWithUser(User.loggedInUser)
+                    .sendOrderToKitchen(order)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Response>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.v("RESTAURANTO", "Order sent...");
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e("RESTAURANTO", "FAIL! You wont eat!");
+                            Log.e("RESTAURANTO", e.getMessage());
+                            Toast.makeText(context,
+                                    "Coś się nie udało w trakcie wysyłania zamówienia",
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+
+                        @Override
+                        public void onNext(Response response) {
+                            Toast.makeText(context, "Wysłano zamówienie", Toast.LENGTH_SHORT).show();
+                            orderFragment.clearOrder();
+                        }
+                    });
         }
-        for(int j = 0; j < orderFragment.getSets().size(); j++) {
-            setIds[j] = orderFragment.getSets().get(j).getId();
-        }
-        orderFragment.clearOrder();
-        final Context context = this;
-
-        Order order = new Order(Restaurant.pickedRestaurant.getId(), dishIds, setIds);
-        new RestaurantoAPIBuilder()
-                .getClientWithUser(User.loggedInUser)
-                .sendOrderToKitchen(order)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.v("RESTAURANTO", "Order sent...");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("RESTAURANTO", "FAIL! You wont eat!");
-                        Log.e("RESTAURANTO", e.getMessage());
-                        Toast.makeText(context,
-                                "Coś się nie udało w trakcie wysyłania zamówienia",
-                                Toast.LENGTH_SHORT)
-                                .show();
-                    }
-
-                    @Override
-                    public void onNext(Response response) {
-                        Toast.makeText(context, "Wysłano zamówienie", Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
 
     public static class MyPagerAdapter extends FragmentPagerAdapter {

@@ -12,6 +12,8 @@ import com.restauranto.restaurantoapp.R;
 import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import models.Order;
@@ -26,6 +28,12 @@ public class OrdersAdapter extends BaseAdapter {
     public OrdersAdapter(Context context, List<Order> orders) {
         this.context = context;
         this.orders = orders;
+        Collections.sort(this.orders, new Comparator<Order>() {
+            @Override
+            public int compare(Order lhs, Order rhs) {
+                return lhs.getCreatedAt().compareTo(rhs.getCreatedAt());
+            }
+        });
     }
 
     @Override
@@ -56,7 +64,7 @@ public class OrdersAdapter extends BaseAdapter {
 
         SimpleDateFormat dt = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-        dishesCount.setText("Dishes count: " +
+        dishesCount.setText("Ilość zamówień: " +
                 String.valueOf(order.getDishIds().length + order.getSetsIds().length));
         orderDate.setText(dt.format(order.getCreatedAt()));
 
